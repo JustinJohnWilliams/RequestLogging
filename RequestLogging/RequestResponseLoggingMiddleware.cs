@@ -47,8 +47,8 @@ namespace RequestLogging
 
             var buffer = new byte[Convert.ToInt32(request.ContentLength)];
             await request.Body.ReadAsync(buffer, 0, buffer.Length);
+            request.Body.Seek(0, SeekOrigin.Begin);
             var bodyAsText = Encoding.UTF8.GetString(buffer);
-            request.Body = body;
 
             return $"{request.Scheme} {request.Host}{request.Path} {request.QueryString} {bodyAsText}";
         }
